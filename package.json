@@ -1,0 +1,28 @@
+{
+  "name": "express-serverless-exercise",
+  "version": "1.0.0",
+  "description": "Stub...",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ulisesac4/express-serverless-exercise.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ulisesac4/express-serverless-exercise/issues"
+  },
+  "homepage": "https://github.com/ulisesac4/express-serverless-exercise#readme",
+  "dependencies": {
+    "@vendia/serverless-express": "^4.10.1",
+    "aws-sdk": "^2.1311.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.4.2",
+    "supertest": "^6.3.3"
+  }
+}
