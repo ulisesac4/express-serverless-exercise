@@ -9,7 +9,7 @@ module.exports = {
     }
 
     const todo = await TodosService.create(name, status, dueDate, notes);
-    res.json({ todo });
+    res.status(201).json({ todo });
   },
   /**
    * @openapi
