@@ -8,7 +8,7 @@ module.exports = async (status) => {
   if (status) {
     params.FilterExpression = "#status = :status";
     params.ExpressionAttributeValues = {
-      ":status": req.query.status,
+      ":status": status,
     };
     params.ExpressionAttributeNames = {
       "#status": "status",
