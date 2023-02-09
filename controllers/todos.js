@@ -1,72 +1,6 @@
-/**
- * @module Boletus/controller
- * @description Este modulo ofrece la administración de boletas de votantes
- */
 const TodosService = require("../services/todos");
 
 module.exports = {
-  /**
-   * @openapi
-   * /todos:
-   *   post:
-   *     tags:
-   *       - Todos
-   *     summary: Creates a new todo
-   *     requestBody:
-   *       required: true
-   *       content:
-   *         application/json:
-   *           schema:
-   *             type: object
-   *             required:
-   *               - name
-   *               - status
-   *               - dueDate
-   *               - notes
-   *             properties:
-   *               name:
-   *                 type: string
-   *               status:
-   *                 type: string
-   *                 enum:
-   *                   - not started
-   *                   - in progress
-   *                   - completed
-   *               dueDate:
-   *                 type: string
-   *                 format: date
-   *               notes:
-   *                 type: string
-   *     responses:
-   *       201:
-   *         description: Todo created
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: object
-   *               properties:
-   *                 todo:
-   *                   type: object
-   *                   properties:
-   *                     name:
-   *                       type: string
-   *                     status:
-   *                       type: string
-   *                     dueDate:
-   *                       type: string
-   *                     notes:
-   *                       type: string
-   *       400:
-   *         description: Bad Request
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: object
-   *               properties:
-   *                 error:
-   *                   type: string
-   *                   example: All fields are required
-   */
   create: async (req, res) => {
     const { name, status, dueDate, notes } = req.body;
 
@@ -77,12 +11,78 @@ module.exports = {
     const todo = await TodosService.create(name, status, dueDate, notes);
     res.json({ todo });
   },
+  /**
+   * @openapi
+   * paths:
+   *   /todos/{id}:
+   *     delete:
+   *       parameters:
+   *         - in: path
+   *           name: id
+   *           required: true
+   *           description: ID of the Todo to delete
+   *           schema:
+   *             type: string
+   *       responses:
+   *         200:
+   *           description: Success
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   message:
+   *                     type: string
+   *                     example: Record deleted successfully
+   *         400:
+   *           description: Bad Request
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   error:
+   *                     type: string
+   *                     example: There is nothing to delete
+   */
+  destroy: async (req, res) => {
+    const { id } = req.params;
 
-  destroy: async (req, res) => {},
+    if (!id) {
+      return res.status(400).json({ error: "There is nothing to delete" });
+    }
 
-  show: async (req, res) => {},
+    await TodosService.destroy(id);
+    res.json({ message: "Record deleted successfully" });
+  },
 
-  showAll: async (req, res) => {},
+  show: async (req, res) => {
+    const { id } = req.params;
 
-  update: async (req, res) => {},
+    const todo = await TodosService.show(id);
+    if (todo.Item) {
+      return res.json({ todo });
+    } else {
+      return res
+        .status(404)
+        .json({ message: "Element with that id is not found" });
+    }
+  },
+
+  showAll: async (req, res) => {
+    const { status } = req.query;
+
+    const todos = await TodosService.showAll(status);
+
+    res.json({ todos: todos.Items });
+  },
+
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { name, status, dueDate, notes } = req.body;
+
+    const result = await TodosService.update(id, name, status, dueDate, notes);
+
+    res.json({ message: "Updated succesfully" });
+  },
 };
