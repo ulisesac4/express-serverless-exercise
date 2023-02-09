@@ -4,10 +4,10 @@ const router = express.Router();
 
 const Controllers = require("../controllers");
 
-router.post("/create", Controllers.Todos.create);
-router.delete("/delete", Controllers.Todos.destroy);
-router.get("/show", Controllers.Todos.show);
-router.get("/showall", Controllers.Todos.showAll);
-router.patch("/update", Controllers.Todos.update);
+router.post("/", Controllers.Todos.create);
+router.delete("/", Controllers.Todos.destroy);
+router.get("/:id", Controllers.Todos.show);
+router.get("/", Controllers.Todos.showAll);
+router.patch("/:id", Controllers.Todos.update);
 
 module.exports = router;
