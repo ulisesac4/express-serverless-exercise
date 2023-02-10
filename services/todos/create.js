@@ -2,9 +2,10 @@ const { uuid } = require("uuidv4");
 const DynamoDb = require("../../helpers/dynamodb-instance");
 
 module.exports = async (name, status, dueDate, notes) => {
-  return DynamoDb.put({
+  const id = uuid();
+  const element = DynamoDb.put({
     Item: {
-      id: uuid(),
+      id,
       dueDate,
       status,
       name,
@@ -12,4 +13,6 @@ module.exports = async (name, status, dueDate, notes) => {
     },
     TableName: "TODOS",
   }).promise();
+
+  return id;
 };

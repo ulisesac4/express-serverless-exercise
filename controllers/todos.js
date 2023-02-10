@@ -1,6 +1,55 @@
 const TodosService = require("../services/todos");
 
 module.exports = {
+  /**
+   * @openapi
+   * paths:
+   *   /todos:
+   *     post:
+   *       parameters:
+   *         - in: body
+   *           name: body
+   *           required: true
+   *           description: Todo item to create
+   *           schema:
+   *             type: object
+   *             properties:
+   *               name:
+   *                 type: string
+   *                 description: The name of the todo item
+   *               status:
+   *                 type: string
+   *                 description: The status of the todo item
+   *               dueDate:
+   *                 type: string
+   *                 format: date-time
+   *                 description: The due date of the todo item
+   *               notes:
+   *                 type: string
+   *                 description: Notes related to the todo item
+   *       responses:
+   *         201:
+   *           description: Successful creation of a new todo item
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   id:
+   *                     type: string
+   *                     format: uuid
+   *                     description: The unique identifier of the todo item
+   *         400:
+   *           description: All fields are required
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   error:
+   *                     type: string
+   *                     description: Error message
+   */
   create: async (req, res) => {
     const { name, status, dueDate, notes } = req.body;
 
@@ -8,8 +57,9 @@ module.exports = {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const todo = await TodosService.create(name, status, dueDate, notes);
-    res.status(201).json({ todo });
+    const id = await TodosService.create(name, status, dueDate, notes);
+
+    res.status(201).json({ id });
   },
   /**
    * @openapi

@@ -17,11 +17,12 @@
   },
   "homepage": "https://github.com/ulisesac4/express-serverless-exercise#readme",
   "dependencies": {
-    "@vendia/serverless-express": "^4.10.1",
     "aws-sdk": "^2.1311.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "serverless-express": "^2.0.12",
+    "serverless-http": "^3.1.1",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {

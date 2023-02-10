@@ -1,3 +1,4 @@
+const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const express = require("express");
@@ -17,4 +18,5 @@ app.use(function (err, req, res, next) {
 app.use("/", routes);
 //app.listen(5000, () => {});
 
-module.exports = app;
+module.exports.handler = serverless(app);
+module.exports.app = app;

@@ -1,8 +1,8 @@
 const request = require("supertest");
-const app = require("../app/app");
+const app = require("../app/app").app;
 
 describe("POST /todos", () => {
-  let server;
+  let server = app;
 
   beforeEach(() => {
     server = app.listen();
@@ -12,33 +12,27 @@ describe("POST /todos", () => {
     server.close();
   });
 
-  it("should create a new todo", async () => {
-    const res = await request(server)
-      .post("/todos")
-      .send({
-        name: "Test Todo",
-        status: "not started",
-        dueDate: "2023-03-10",
-        notes: "This is a test todo",
-      })
-      .expect(201);
+  it("should return 201 and the id of the newly created todo item", async () => {
+    const response = await request(server).post("/todos").send({
+      name: "Test Todo",
+      status: "Incomplete",
+      dueDate: "2023-02-10",
+      notes: "Test notes",
+    });
 
-    expect(res.body).toHaveProperty("todo");
-    expect(res.body.todo).toHaveProperty("name", "Test Todo");
-    expect(res.body.todo).toHaveProperty("status", "not started");
-    expect(res.body.todo).toHaveProperty("dueDate", "2023-03-10");
-    expect(res.body.todo).toHaveProperty("notes", "This is a test todo");
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("id");
   });
 
-  it("should return bad request if required fields are missing", async () => {
-    const res = await request(server)
-      .post("/todos")
-      .send({
-        name: "Test Todo",
-        status: "not started",
-      })
-      .expect(400);
+  it("should return 400 if a required field is missing", async () => {
+    const response = await request(server).post("/todos").send({
+      name: "Test Todo",
+      status: "Incomplete",
+      dueDate: "",
+      notes: "Test notes",
+    });
 
-    expect(res.body).toHaveProperty("error", "All fields are required");
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("error");
   });
 });
