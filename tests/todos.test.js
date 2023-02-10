@@ -1,4 +1,5 @@
 const request = require("supertest");
+const TodosService = require("../services/todos/index");
 const app = require("../app/app").app;
 
 describe("POST /todos", () => {
@@ -34,5 +35,30 @@ describe("POST /todos", () => {
 
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("error");
+  });
+});
+
+describe("DELETE /todos/:id", () => {
+  let server = app;
+
+  beforeEach(() => {
+    server = app.listen();
+  });
+
+  afterEach(() => {
+    server.close();
+  });
+
+  it("should return 200 and a success message if the record was deleted", async () => {
+    const id = await TodosService.create(
+      "Some name",
+      "open",
+      "2023-02-10",
+      "Some notes"
+    );
+
+    const response = await request(server).delete(`/todos/${id}`);
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual({ message: "Record deleted successfully" });
   });
 });
