@@ -19,6 +19,7 @@ module.exports = {
    *                 description: The name of the todo item
    *               status:
    *                 type: string
+   *                 enum: ["not started", "in progress", "completed"]
    *                 description: The status of the todo item
    *               dueDate:
    *                 type: string
