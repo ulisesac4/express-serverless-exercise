@@ -105,13 +105,62 @@ module.exports = {
     await TodosService.destroy(id);
     res.json({ message: "Record deleted successfully" });
   },
-
+  /**
+   * @openapi
+   * paths:
+   *   /todos/{id}:
+   *     get:
+   *       parameters:
+   *         - in: path
+   *           name: id
+   *           required: true
+   *           description: ID of the Todo to retrieve
+   *           schema:
+   *             type: string
+   *       responses:
+   *         200:
+   *           description: Success
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   todo:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         example: 5a0e3318-38f9-4a9b-a497-411050042f91
+   *                       name:
+   *                         type: string
+   *                         example: Test Todo
+   *                       notes:
+   *                         type: string
+   *                         example: This is a test todo
+   *                       dueDate:
+   *                         type: string
+   *                         example: 2023-03-10
+   *                       status:
+   *                         type: string
+   *                         example: not started
+   *         404:
+   *           description: Not Found
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   message:
+   *                     type: string
+   *                     example: Element with that id is not found
+   */
   show: async (req, res) => {
     const { id } = req.params;
 
     const todo = await TodosService.show(id);
+
     if (todo.Item) {
-      return res.json({ todo });
+      return res.json({ todo: todo.Item });
     } else {
       return res
         .status(404)

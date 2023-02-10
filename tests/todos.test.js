@@ -62,3 +62,43 @@ describe("DELETE /todos/:id", () => {
     expect(response.body).toEqual({ message: "Record deleted successfully" });
   });
 });
+
+describe("GET /todos/:id", () => {
+  let server = app;
+
+  beforeEach(async () => {
+    server = app.listen();
+  });
+
+  afterEach(() => {
+    server.close();
+  });
+
+  it("should return 200 and the Todo data when fetching an existing Todo", async () => {
+    const createdTodo = await request(server).post("/todos").send({
+      name: "Test Todo",
+      status: "Incomplete",
+      dueDate: "2023-02-10",
+      notes: "Test notes",
+    });
+    const id = createdTodo.body.id;
+
+    const response = await request(app).get(`/todos/${id}`);
+    console.log("le id", id, response.body);
+    expect(response.statusCode).toBe(200);
+    expect(response.body.todo.id).toBe(id);
+    expect(response.body.todo.name).toBe("Test Todo");
+    expect(response.body.todo.notes).toBe("Test notes");
+    expect(response.body.todo.dueDate).toBe("2023-02-10");
+    expect(response.body.todo.status).toBe("Incomplete");
+  });
+
+  it("should return 404 and an error message when fetching a non-existing Todo", async () => {
+    const response = await request(app).get("/todos/fake-id");
+
+    expect(response.statusCode).toBe(404);
+    expect(response.body).toEqual({
+      message: "Element with that id is not found",
+    });
+  });
+});

@@ -6,6 +6,5 @@ module.exports = async (id) => {
     Key: {
       id,
     },
-    ProjectionExpression: "ATTRIBUTE_NAME",
   }).promise();
 };
