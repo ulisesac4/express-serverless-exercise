@@ -1,1 +1,16 @@
-Stub...
+
+## Overview ##
+
+Toy application deployed into aws lambda. It is about TODOs
+
+## The url ##
+The url of the serverless app is `https://b5rxb1xn39.execute-api.us-east-1.amazonaws.com/todos/`, of course it only has the `todos` operations on it
+
+## The documentation ##
+To generate it, run `npm run swagger-json` you will find your json spec inside dist as `swagger.json` with this file you can analyze it with your favorit openapi manager so you can see the documentation of it.
+
+## Test ##
+You can run them issuing the command `npx jest` and the test suit will follow, the test suit is derived from the documentation.
+
+## Things that were not implemented ##
+I left out the middleware for authorization & authentication, the other parts like the filtering by status and unit tests are implemented.
