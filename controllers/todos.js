@@ -168,7 +168,57 @@ module.exports = {
         .json({ message: "Element with that id is not found" });
     }
   },
-
+  /**
+   * @openapi
+   * paths:
+   *   /todos:
+   *     get:
+   *       parameters:
+   *         - in: query
+   *           name: status
+   *           description: status of the Todos to retrieve
+   *           schema:
+   *             type: string
+   *           required: false
+   *       responses:
+   *         200:
+   *           description: Success
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   todos:
+   *                     type: array
+   *                     items:
+   *                       type: object
+   *                       properties:
+   *                         id:
+   *                           type: string
+   *                           example: 83d282e4-0c1f-4d7f-af37-42f8c50cfc9c
+   *                         name:
+   *                           type: string
+   *                           example: Some name
+   *                         notes:
+   *                           type: string
+   *                           example: Some notes
+   *                         dueDate:
+   *                           type: string
+   *                           example: 2023-02-10
+   *                         status:
+   *                           type: string
+   *                           example: open
+   *         500:
+   *           description: Internal Server Error
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   message:
+   *                     type: string
+   *                     example: Internal Server Error
+   */
   showAll: async (req, res) => {
     const { status } = req.query;
 
