@@ -226,6 +226,71 @@ module.exports = {
 
     res.json({ todos: todos.Items });
   },
+  /**
+   * @openapi
+   * paths:
+   *   /todos/{id}:
+   *     patch:
+   *       parameters:
+   *         - in: path
+   *           name: id
+   *           description: The id of the Todo to update
+   *           schema:
+   *             type: string
+   *           required: true
+   *         - in: body
+   *           name: Todo
+   *           description: The Todo to update
+   *           required: true
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   name:
+   *                     type: string
+   *                     example: New name
+   *                   status:
+   *                     type: string
+   *                     example: closed
+   *                   dueDate:
+   *                     type: string
+   *                     example: 2023-02-10
+   *                   notes:
+   *                     type: string
+   *                     example: New notes
+   *       responses:
+   *         200:
+   *           description: Success
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   message:
+   *                     type: string
+   *                     example: Updated succesfully
+   *         404:
+   *           description: Todo not found
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   message:
+   *                     type: string
+   *                     example: Todo not found
+   *         500:
+   *           description: Internal Server Error
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 type: object
+   *                 properties:
+   *                   message:
+   *                     type: string
+   *                     example: Internal Server Error
+   */
 
   update: async (req, res) => {
     const { id } = req.params;

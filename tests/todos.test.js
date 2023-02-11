@@ -132,3 +132,36 @@ describe("GET /todos", () => {
     });
   });
 });
+
+describe("PATCH /todos/{id}", () => {
+  let server = app;
+
+  beforeEach(async () => {
+    server = app.listen();
+  });
+
+  afterEach(() => {
+    server.close();
+  });
+
+  it("should return 200 and update a Todo when all required information is provided", async () => {
+    const temp = await request(server).post("/todos").send({
+      name: "Test Todo",
+      status: "in progress",
+      dueDate: "2023-02-10",
+      notes: "Test notes",
+    });
+
+    const id = temp.body.id;
+    const payload = {
+      name: "New name",
+      status: "completed",
+      dueDate: "2023-02-10",
+      notes: "New notes",
+    };
+
+    const response = await request(app).patch(`/todos/${id}`).send(payload);
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe("Updated succesfully");
+  });
+});
