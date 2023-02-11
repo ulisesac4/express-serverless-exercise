@@ -270,26 +270,6 @@ module.exports = {
    *                   message:
    *                     type: string
    *                     example: Updated succesfully
-   *         404:
-   *           description: Todo not found
-   *           content:
-   *             application/json:
-   *               schema:
-   *                 type: object
-   *                 properties:
-   *                   message:
-   *                     type: string
-   *                     example: Todo not found
-   *         500:
-   *           description: Internal Server Error
-   *           content:
-   *             application/json:
-   *               schema:
-   *                 type: object
-   *                 properties:
-   *                   message:
-   *                     type: string
-   *                     example: Internal Server Error
    */
 
   update: async (req, res) => {
